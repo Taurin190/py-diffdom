@@ -14,7 +14,7 @@ class DiffCheck:
         self.start_time = time.time()
         print("start diff check tool")
         db_config = dcm.DBConfigManager("./config/database.conf").get_config_obj()
-        api_config = acm.DBConfigManager("./config/api.conf").get_config_obj()
+        api_config = acm.APIConfigManager("./config/api.conf").get_config_obj()
         print("create repository")
         self.repository = DiffCheck.get_repository(db_config)
         print("create api connector")
