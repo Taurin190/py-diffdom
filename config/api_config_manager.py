@@ -1,9 +1,19 @@
 # -*- coding:utf-8 -*-
+from config import config_manager as cm
 
 
-class APIConfigManager(ConfigManager):
+class APIConfig(object):
+    def __init__(self, url1, port1, url2, port2, type):
+        self.url1 = url1
+        self.port1 = port1
+        self.url2 = url2
+        self.port2 = port2
+        self.type = type
+
+
+class APIConfigManager(cm.ConfigManager):
     def __init__(self, file_path):
-        super(DBConfigManager, self).__init__(self, file_path)
+        super().__init__(file_path)
 
     def get_config_obj(self):
         url1 = self.config["api"]["url1"]
@@ -13,10 +23,3 @@ class APIConfigManager(ConfigManager):
         type = self.config["api"]["type"]
         return APIConfig(url1, port1, url2, port2, type)
 
-    class APIConfig:
-        def __init__(self, url1, port1, url2, port2, type):
-            self.url1 = url1
-            self.port1 = port1
-            self.url2 = url2
-            self.port2 = port2
-            self.type = type

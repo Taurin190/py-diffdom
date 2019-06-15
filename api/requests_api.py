@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
 import requests
+from api import api
 
 
-class RequestsAPI:
+class RequestsAPI(api.API):
     def __init__(self, url):
-        super(SeleniumAPI, self).__init__(url)
+        super().__init__(url)
 
     def get_html(self):
         response = requests.get(self.url)
