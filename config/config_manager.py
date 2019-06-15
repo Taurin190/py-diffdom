@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import configparser
+from abc import abstractmethod
 
 
 class ConfigManager:
@@ -10,7 +11,7 @@ class ConfigManager:
 
     @abstractmethod
     def get_config_obj(self):
-        raise NotImpementedError()
+        raise NotImplementedError()
 
 
 

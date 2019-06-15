@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-
+from abc import abstractmethod
 
 class API:
     def __init__(self, url):
@@ -7,4 +7,4 @@ class API:
 
     @abstractmethod
     def get_html(self):
-        raise NotImpementedError()
+        raise NotImplementedError()

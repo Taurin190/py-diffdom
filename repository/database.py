@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-
+from abc import abstractmethod
 
 class Database:
     def __init__(self, config):
@@ -7,16 +7,16 @@ class Database:
 
     @abstractmethod
     def connect(self):
-        raise NotImpementedError()
+        raise NotImplementedError()
 
     @abstractmethod
     def insert(self):
-        raise NotImpementedError()
+        raise NotImplementedError()
 
     @abstractmethod
     def find_all(self):
-        raise NotImpementedError()
+        raise NotImplementedError()
 
     @abstractmethod
     def find_by_query(self, query):
-        raise NotImpementedError()
+        raise NotImplementedError()
