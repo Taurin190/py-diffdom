@@ -10,3 +10,7 @@ class SeleniumAPI:
     def get_html(self):
         self.driver.get(self.url)
         return self.driver.page_source
+
+    def __del__(self):
+        self.driver.close()
+
