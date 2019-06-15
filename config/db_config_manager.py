@@ -3,11 +3,12 @@ from config import config_manager as cm
 
 
 class DBConfig(object):
-    def __init__(self, hostname, port, type, database):
+    def __init__(self, hostname, port, type, database, collection):
         self.hostname = hostname
         self.port = port
         self.type = type
         self.database = database
+        self.collection = collection
 
 
 class DBConfigManager(cm.ConfigManager):
@@ -19,5 +20,6 @@ class DBConfigManager(cm.ConfigManager):
         port = self.config["database"]["port"]
         type = self.config["database"]["database"]
         database = self.config["database"]["database"]
-        return DBConfig(hostname, port, type, database)
+        collection = self.config["database"]["collection"]
+        return DBConfig(hostname, port, type, database, collection)
 

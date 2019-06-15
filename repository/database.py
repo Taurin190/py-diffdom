@@ -7,11 +7,7 @@ class Database:
         self.config = config
 
     @abstractmethod
-    def connect(self):
-        raise NotImplementedError()
-
-    @abstractmethod
-    def insert(self):
+    def insert(self, document):
         raise NotImplementedError()
 
     @abstractmethod
