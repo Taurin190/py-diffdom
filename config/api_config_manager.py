@@ -10,11 +10,13 @@ class APIConfigManager(ConfigManager):
         port1 = self.config["api"]["port1"]
         url2 = self.config["api"]["url2"]
         port2 = self.config["api"]["port2"]
-        return APIConfig(url1, port1, url2, port2)
+        type = self.config["api"]["type"]
+        return APIConfig(url1, port1, url2, port2, type)
 
     class APIConfig:
-        def __init__(self, url1, port1, url2, port2):
+        def __init__(self, url1, port1, url2, port2, type):
             self.url1 = url1
             self.port1 = port1
             self.url2 = url2
             self.port2 = port2
+            self.type = type
