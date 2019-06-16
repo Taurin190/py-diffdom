@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 import time
-from repository import mongo_database as mdb
-from repository import file_database as fdb
+from repository.mongo_database import MongoDatabase
+from repository.file_database import FileDatabase
 from api import requests_api as rapi
 from api import selenium_api as sapi
-from config import url_list_reader as ulr
-from config import db_config_manager as dcm
+from config.url_list_reader import URLListReader
+from config.db_config_manager import DBConfigManager
 from config import api_config_manager as acm
 from bs4 import BeautifulSoup
 
@@ -14,16 +14,16 @@ class DiffChecker:
     def __init__(self):
         self.start_time = time.time()
         print("start diff check tool")
-        db_config = dcm.DBConfigManager("/config/database.conf").get_config_obj()
+        db_config = DBConfigManager("/config/database.conf").get_config_obj()
         print("create repository")
         self.repository = DiffChecker.get_repository(db_config)
 
     @staticmethod
     def get_repository(config):
         if config.type == "mongo":
-            repository = mdb.MongoDatabase(config)
+            repository = MongoDatabase(config)
         else:
-            repository = fdb.FileDatabase(config)
+            repository = FileDatabase(config)
         return repository
 
     @staticmethod
@@ -37,8 +37,8 @@ class DiffChecker:
 
     @staticmethod
     def get_url_lists(file_path1, file_path2):
-        list1 = ulr.URLListReader.get_url_list(file_path1)
-        list2 = ulr.URLListReader.get_url_list(file_path2)
+        list1 = URLListReader.get_url_list(file_path1)
+        list2 = URLListReader.get_url_list(file_path2)
         return [list1, list2]
 
     def __del__(self):
