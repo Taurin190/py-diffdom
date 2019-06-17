@@ -8,6 +8,7 @@ from config.url_list_reader import URLListReader
 from config.db_config_manager import DBConfigManager
 from config import api_config_manager as acm
 from bs4 import BeautifulSoup
+import os
 
 
 class DiffChecker:
@@ -37,8 +38,9 @@ class DiffChecker:
 
     @staticmethod
     def get_url_lists(file_path1, file_path2):
-        list1 = URLListReader.get_url_list(file_path1)
-        list2 = URLListReader.get_url_list(file_path2)
+        current_path = os.getcwd()
+        list1 = URLListReader.get_url_list(current_path + file_path1)
+        list2 = URLListReader.get_url_list(current_path + file_path2)
         return [list1, list2]
 
     def __del__(self):
@@ -46,7 +48,7 @@ class DiffChecker:
         print("diff check end: execution time[{:.5g} sec]".format(end_time - self.start_time))
 
     def exec(self):
-        url_lists = DiffChecker.get_url_lists("", "")
+        url_lists = DiffChecker.get_url_lists("/config/url_list1.txt", "/config/url_list2.txt")
         self.compare_from_url_lists(url_lists[0], url_lists[1])
         print("create domain")
         print("execute diff check")
