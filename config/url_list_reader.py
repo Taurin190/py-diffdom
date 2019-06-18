@@ -2,9 +2,6 @@
 
 
 class URLListReader:
-    def __init__(self, conf_path):
-        pass
-
     @staticmethod
     def get_url_list(file_path):
         url_list = []
