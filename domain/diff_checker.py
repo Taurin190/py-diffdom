@@ -1,14 +1,15 @@
 # -*- coding:utf-8 -*-
+import os
 import time
-from repository.mongo_database import MongoDatabase
-from repository.file_database import FileDatabase
-from api import requests_api as rapi
-from api import selenium_api as sapi
+from bs4 import BeautifulSoup
+
+from api.requests_api import RequestsAPI
+from api.selenium_api import SeleniumAPI
 from config.url_list_reader import URLListReader
 from config.db_config_manager import DBConfigManager
-from config import api_config_manager as acm
-from bs4 import BeautifulSoup
-import os
+from config.api_config_manager import APIConfigManager
+from repository.mongo_database import MongoDatabase
+from repository.file_database import FileDatabase
 
 
 class DiffChecker:
@@ -30,9 +31,9 @@ class DiffChecker:
     @staticmethod
     def get_api_connector(config):
         if config.type == "selenium":
-            api = sapi.SeleniumAPI()
+            api = SeleniumAPI()
         else:
-            api = rapi.RequestsAPI()
+            api = RequestsAPI()
         return api
 
     @staticmethod
@@ -57,7 +58,7 @@ class DiffChecker:
             self.compare_urls(url_list1[i], url_list2[i])
 
     def compare_urls(self, url1, url2):
-        config = acm.APIConfigManager("/config/api.conf").get_config_obj()
+        config = APIConfigManager("/config/api.conf").get_config_obj()
         api_connector = DiffChecker.get_api_connector(config)
         html1 = api_connector.get_html(url1)
         html2 = api_connector.get_html(url2)
