@@ -29,11 +29,10 @@ class DiffChecker:
 
     @staticmethod
     def get_api_connector(config):
-        config = acm.APIConfigManager("/config/api.conf").get_config_obj()
         if config.type == "selenium":
-            api = sapi.SeleniumAPI(config)
+            api = sapi.SeleniumAPI()
         else:
-            api = rapi.RequestsAPI(config)
+            api = rapi.RequestsAPI()
         return api
 
     @staticmethod
@@ -55,11 +54,12 @@ class DiffChecker:
 
     def compare_from_url_lists(self, url_list1, url_list2):
         for i in range(len(url_list1)):
-            self.compare_urls(url_list1[i], url_list2[2])
+            self.compare_urls(url_list1[i], url_list2[i])
 
     def compare_urls(self, url1, url2):
-        print("create api connector")
-        html1 = DiffChecker.get_api_connector(url1).get_html()
-        html2 = DiffChecker.get_api_connector(url2).get_html()
+        config = acm.APIConfigManager("/config/api.conf").get_config_obj()
+        api_connector = DiffChecker.get_api_connector(config)
+        html1 = api_connector.get_html(url1)
+        html2 = api_connector.get_html(url2)
         s1 = BeautifulSoup(html1, "html.parser")
         s2 = BeautifulSoup(html2, "html.parser")

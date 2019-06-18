@@ -3,9 +3,9 @@ from abc import abstractmethod
 
 
 class API:
-    def __init__(self, url):
-        self.url = url
+    def __init__(self):
+        pass
 
     @abstractmethod
-    def get_html(self):
+    def get_html(self, url):
         raise NotImplementedError()

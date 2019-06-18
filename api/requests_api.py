@@ -4,9 +4,9 @@ from api import api
 
 
 class RequestsAPI(api.API):
-    def __init__(self, url):
-        super().__init__(url)
+    def __init__(self):
+        super().__init__()
 
-    def get_html(self):
-        response = requests.get(self.url)
+    def get_html(self, url):
+        response = requests.get(url)
         return response.text

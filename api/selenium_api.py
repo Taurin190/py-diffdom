@@ -4,12 +4,12 @@ from api import api
 
 
 class SeleniumAPI(api.API):
-    def __init__(self, url):
-        super().__init__(url)
+    def __init__(self):
+        super().__init__()
         self.driver = webdriver.Chrome()
 
-    def get_html(self):
-        self.driver.get(self.url)
+    def get_html(self, url):
+        self.driver.get(url)
         return self.driver.page_source
 
     def __del__(self):
