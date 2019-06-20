@@ -64,3 +64,33 @@ class DiffChecker:
         html2 = api_connector.get_html(url2)
         s1 = BeautifulSoup(html1, "html.parser")
         s2 = BeautifulSoup(html2, "html.parser")
+        self.compare_parsed_html(s1, s2)
+
+    def compare_parsed_html(self, s1, s2):
+        children = getattr(s2.head, "children")
+        self.is_same_dom(s1, s2)
+
+    def is_same_dom(self, s1, s2):
+        if len(s1.contents) == 0 and len(s2.contents) == 0:
+            if s1 == s2:
+                return True
+            else:
+                for s1_line in s1.split("\n"):
+                    print("+ " + s1_line)
+                for s2_line in s2.split("\n"):
+                    print("- " + s2_line)
+                return False
+        if len(s1.contents) != len(s2.contents):
+            for s1_line in s1.contents:
+                print("+ " + str(s1_line))
+            for s2_line in s2.contents:
+                print("- " + str(s2_line))
+            return False
+        for i in range(len(s1.contents)):
+            if not self.is_same_dom(s1.contents[i], s2.contents[i]):
+                return False
+        return True
+
+
+
+
