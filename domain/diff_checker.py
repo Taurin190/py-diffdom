@@ -10,6 +10,9 @@ from config.db_config_manager import DBConfigManager
 from config.api_config_manager import APIConfigManager
 from repository.mongo_database import MongoDatabase
 from repository.file_database import FileDatabase
+from domain.dom_diff import DomDiff
+from domain.line_diff import LineDiff
+from domain.json_diff import JsonDiff
 
 
 class DiffChecker:
@@ -42,6 +45,18 @@ class DiffChecker:
         list1 = URLListReader.get_url_list(current_path + file_path1)
         list2 = URLListReader.get_url_list(current_path + file_path2)
         return [list1, list2]
+
+    @staticmethod
+    def get_diff_tool(config):
+        if config.type == "dom":
+            diff_tool = DomDiff()
+        elif config.type == "line":
+            diff_tool = LineDiff()
+        elif config.type == "json":
+            diff_tool = JsonDiff()
+        else:
+            diff_tool = DomDiff()
+        return diff_tool
 
     def __del__(self):
         end_time = time.time()
