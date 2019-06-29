@@ -103,7 +103,12 @@ class DiffChecker:
             has_error = True
             for i in range(len(s1.contents)):
                 if s1.contents[i].name:
-                    print(" " * nest + s1.contents[i].name)
+                    html_tag = s1.contents[i].name
+                    if s1.contents[i].get("id"):
+                        html_tag += " id:" + s1.contents[i].get("id")
+                    if s1.contents[i].get("class"):
+                        html_tag += " class:" + str(s1.contents[i].get("class"))
+                    print(" " * nest + html_tag)
                 if not self.is_same_dom(s1.contents[i], s2.contents[i], nest+1):
                     has_error = False
             return has_error
