@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from domain.diff import Diff
+from domain.diff.diff import Diff
 from bs4 import BeautifulSoup
 
 

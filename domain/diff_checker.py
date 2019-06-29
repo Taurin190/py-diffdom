@@ -9,9 +9,9 @@ from config.db_config_manager import DBConfigManager
 from config.api_config_manager import APIConfigManager
 from repository.mongo_database import MongoDatabase
 from repository.file_database import FileDatabase
-from domain.dom_diff import DomDiff
-from domain.line_diff import LineDiff
-from domain.json_diff import JsonDiff
+from domain.diff.dom_diff import DomDiff
+from domain.diff.line_diff import LineDiff
+from domain.diff.json_diff import JsonDiff
 
 
 class DiffChecker:
