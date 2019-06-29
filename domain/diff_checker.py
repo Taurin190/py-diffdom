@@ -82,50 +82,36 @@ class DiffChecker:
         self.compare_parsed_html(s1, s2)
 
     def compare_parsed_html(self, s1, s2):
-        children = getattr(s2.head, "children")
         self.is_same_dom(s1, s2, 0)
 
     def is_same_dom(self, s1, s2, nest):
         # s1, s2の両方がcontentsを持ってない場合は、s1, s2を比較して結果を返す
         if not hasattr(s1, 'contents') and not hasattr(s2, 'contents'):
             if s1 == s2:
-                # print("case 1.1")
                 return True
             else:
-                # print("case 1.2")
-                # print("+ " + str(s1))
-                # print("- " + str(s2))
+                print(" " * nest + "+ " + str(s1))
+                print(" " * nest + "- " + str(s2))
                 return False
         # s1, s2のどちらかのみがcontentsを持ってない場合は、異なる
         elif not hasattr(s1, 'contents') or not hasattr(s2, 'contents'):
-            print("case 2")
-            print("+ " + str(s1))
-            print("- " + str(s2))
+            print(" " * nest + "+ " + str(s1))
+            print(" " * nest + "- " + str(s2))
             return False
 
         if len(s1.contents) == len(s2.contents):
             has_error = True
             for i in range(len(s1.contents)):
-                # print(s1.contents[i].name)
+                if s1.contents[i].name:
+                    print(" " * nest + s1.contents[i].name)
                 if not self.is_same_dom(s1.contents[i], s2.contents[i], nest+1):
-                    # print("case 4.2")
-                    if s1.contents[i].name:
-                        print("+ " + s1.contents[i].name)
-                    if s2.contents[i].name:
-                        print("- " + s2.contents[i].name)
                     has_error = False
-                else:
-                    if s1.contents[i].name:
-                        print(" " * nest + s1.contents[i].name)
-            # if has_error:
-            #     print("case 4.1")
             return has_error
         else:
-            print("case 5")
             for s1_line in s1.contents:
-                print("+ " + str(s1_line))
+                print(" " * nest + "+ " + str(s1_line))
             for s2_line in s2.contents:
-                print("- " + str(s2_line))
+                print(" " * nest + "- " + str(s2_line))
             return False
         return True
 
