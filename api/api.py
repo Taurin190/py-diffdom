@@ -9,3 +9,7 @@ class API:
     @abstractmethod
     def get_html(self, url):
         raise NotImplementedError()
+
+    @abstractmethod
+    def set_proxy(self, proxy_url):
+        raise NotImplementedError()

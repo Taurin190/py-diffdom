@@ -12,6 +12,9 @@ class SeleniumAPI(api.API):
         self.driver.get(url)
         return self.driver.page_source
 
+    def set_proxy(self, proxy_url):
+        pass
+
     def __del__(self):
         self.driver.close()
 
