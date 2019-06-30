@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
-from domain.comparision import Comparision
+from domain.acquisition.acquisition import Acquisition
 
 
-class URLListComparision(Comparision):
+class URLListAcquisition(Acquisition):
     def __init__(self, repository):
         super().__init__(repository)

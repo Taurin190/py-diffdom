@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-class Comparision:
+class Acquisition:
     def __init__(self, repository):
         self.repository = repository
 
