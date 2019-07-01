@@ -1,19 +1,25 @@
 # -*- coding:utf-8 -*-
+import os
 from domain.acquisition.acquisition import Acquisition
-
+from config.url_list_reader import URLListReader
 
 class URLListAcquisition(Acquisition):
-    def __init__(self, repository):
-        super().__init__(repository)
+    def __init__(self, api):
+        super().__init__(api)
 
     def get_comparable_htmls(self, **args):
-        if not ["url_lis1", "url_list2"] in args.keys():
+        if not "url_list1" in args.keys() or not "url_list2" in args.keys():
             return
-        comaparable_html_list = []
-        url_list1 = args["url_list1"]
-        url_list2 = args["url_list2"]
-        for i in range(len(url_list1)):
-            html1 = self.api.get_html(url_list1[i])
-            html2 = self.api.get_html(url_list2[i])
-            comaparable_html_list.append([html1, html2])
-        return comaparable_html_list
+        comparable_html_list = []
+        url_lists = self.get_url_lists(args.get("url_list1"), args.get("url_list2"))
+        for i in range(len(url_lists[0])):
+            html1 = self.api.get_html(url_lists[0][i])
+            html2 = self.api.get_html(url_lists[1][i])
+            comparable_html_list.append([html1, html2])
+        return comparable_html_list
+
+    def get_url_lists(self, file_path1, file_path2):
+        current_path = os.getcwd()
+        list1 = URLListReader.get_url_list(current_path + file_path1)
+        list2 = URLListReader.get_url_list(current_path + file_path2)
+        return [list1, list2]

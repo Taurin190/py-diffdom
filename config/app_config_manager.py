@@ -13,6 +13,9 @@ class AppConfigManager(ConfigManager):
     def __init__(self, file_path):
         super().__init__(file_path)
 
+    def get_html_config(self):
+        return ""
+
     def get_config_obj(self):
         type = self.config["app"]["type"]
         target1 = self.config["app"]["target1"]

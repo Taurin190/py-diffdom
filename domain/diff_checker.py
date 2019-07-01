@@ -12,6 +12,7 @@ from repository.file_database import FileDatabase
 from domain.diff.dom_diff import DomDiff
 from domain.diff.line_diff import LineDiff
 from domain.diff.json_diff import JsonDiff
+from domain.acquisition.url_list_acquisition import URLListAcquisition
 
 
 class DiffChecker:
@@ -62,19 +63,12 @@ class DiffChecker:
         print("diff check end: execution time[{:.5g} sec]".format(end_time - self.start_time))
 
     def exec(self):
-        url_lists = DiffChecker.get_url_lists("/config/url_list1.txt", "/config/url_list2.txt")
-        self.compare_from_url_lists(url_lists[0], url_lists[1])
-        print("create domain")
-        print("execute diff check")
-
-    def compare_from_url_lists(self, url_list1, url_list2):
-        for i in range(len(url_list1)):
-            self.compare_urls(url_list1[i], url_list2[i])
-
-    def compare_urls(self, url1, url2):
-        config = APIConfigManager("/config/api.conf").get_config_obj()
-        api_connector = DiffChecker.get_api_connector(config)
-        html1 = api_connector.get_html(url1)
-        html2 = api_connector.get_html(url2)
+        config_manager = APIConfigManager("/config/api.conf")
+        config = config_manager.get_config_obj()
+        api = DiffChecker.get_api_connector(config)
+        url_lists_acquire = URLListAcquisition(api)
+        html_lists = url_lists_acquire.get_comparable_htmls(url_list1=config.url_list1, url_list2=config.url_list2)
         dom_diff = DomDiff()
-        dom_diff.compare(html1, html2)
+        for htmls in html_lists:
+            dom_diff.compare(htmls[0], htmls[1])
+

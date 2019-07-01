@@ -3,12 +3,14 @@ from config import config_manager as cm
 
 
 class APIConfig(object):
-    def __init__(self, url1, port1, url2, port2, type):
+    def __init__(self, url1, port1, url2, port2, type, url_list1, url_list2):
         self.url1 = url1
         self.port1 = port1
         self.url2 = url2
         self.port2 = port2
         self.type = type
+        self.url_list1 = url_list1
+        self.url_list2 = url_list2
 
 
 class APIConfigManager(cm.ConfigManager):
@@ -20,6 +22,8 @@ class APIConfigManager(cm.ConfigManager):
         port1 = self.config["api"]["port1"]
         url2 = self.config["api"]["url2"]
         port2 = self.config["api"]["port2"]
+        url_list1 = self.config["api"]["url_list1"]
+        url_list2 = self.config["api"]["url_list2"]
         type = self.config["api"]["type"]
-        return APIConfig(url1, port1, url2, port2, type)
+        return APIConfig(url1, port1, url2, port2, type, url_list1, url_list2)
 
