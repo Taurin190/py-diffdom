@@ -15,7 +15,6 @@ class DomDiff(Diff):
         s1 = BeautifulSoup(html1, "html.parser")
         s2 = BeautifulSoup(html2, "html.parser")
         self._is_same_dom(s1, s2, "", 0)
-        self.result_text = "html > body > h1\n+ Hello World\n- Hello Hello"
         return self.result_text
 
     def _is_same_dom(self, s1, s2, structure, nest):
@@ -29,15 +28,15 @@ class DomDiff(Diff):
                     print(structure[:-6])
                     self._print_until_max("+ " + str(s1))
                     self._print_until_max("- " + str(s2))
-                    self.result_text += structure[:-6]
-                    self.result_text += "+ " + str(s1)
-                    self.result_text += "- " + str(s2)
+                    self.result_text += structure[:-6] + "\n"
+                    self.result_text += "+ " + str(s1) + "\n"
+                    self.result_text += "- " + str(s2) + "\n"
                     print("")
                 else:
                     self._print_until_max(" " * nest + "+ " + str(s1))
                     self._print_until_max(" " * nest + "- " + str(s2))
-                    self.result_text += " " * nest + "+ " + str(s1)
-                    self.result_text += " " * nest + "- " + str(s2)
+                    self.result_text += " " * nest + "+ " + str(s1) + "\n"
+                    self.result_text += " " * nest + "- " + str(s2) + "\n"
                 return False
         # s1, s2のどちらかのみがcontentsを持ってない場合は、異なる
         elif not hasattr(s1, 'contents') or not hasattr(s2, 'contents'):
@@ -47,14 +46,14 @@ class DomDiff(Diff):
                 self._print_until_max("+ " + str(s1))
                 self._print_until_max("- " + str(s2))
                 print("")
-                self.result_text += structure[:-6]
-                self.result_text += "+ " + str(s1)
-                self.result_text += "- " + str(s2)
+                self.result_text += structure[:-6] + "\n"
+                self.result_text += "+ " + str(s1) + "\n"
+                self.result_text += "- " + str(s2) + "\n"
             else:
                 self._print_until_max(" " * nest + "+ " + str(s1))
                 self._print_until_max(" " * nest + "- " + str(s2))
-                self.result_text += " " * nest + "+ " + str(s1)
-                self.result_text += " " * nest + "- " + str(s2)
+                self.result_text += " " * nest + "+ " + str(s1) + "\n"
+                self.result_text += " " * nest + "- " + str(s2) + "\n"
             return False
 
         if len(s1.contents) == len(s2.contents):
@@ -80,13 +79,14 @@ class DomDiff(Diff):
                 self._print_until_max("+ " + str(s1.contents))
                 self._print_until_max("- " + str(s2.contents))
                 print("")
-                self.result_text += "+ " + str(s1.contents)
-                self.result_text += "- " + str(s2.contents)
+                self.result_text += structure[:-3] + "\n"
+                self.result_text += "+ " + str(s1.contents) + "\n"
+                self.result_text += "- " + str(s2.contents) + "\n"
             else:
                 self._print_until_max(" " * nest + "+ " + str(s1.contents))
                 self._print_until_max(" " * nest + "- " + str(s2.contents))
-                self.result_text += " " * nest + "+ " + str(s1.contents)
-                self.result_text += " " * nest + "- " + str(s2.contents)
+                self.result_text += " " * nest + "+ " + str(s1.contents) + "\n"
+                self.result_text += " " * nest + "- " + str(s2.contents) + "\n"
             return False
 
     def _print_until_max(self, text):

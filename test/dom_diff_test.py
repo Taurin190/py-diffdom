@@ -13,4 +13,4 @@ class DomDiffTest(TestCase):
         dom_diff = DomDiff()
         html1 = "<html><body><h1>Hello World</h1></body></html>"
         html2 = "<html><body><h1>Hello Hello</h1></body></html>"
-        self.assertEqual("html > body > h1\n+ Hello World\n- Hello Hello", dom_diff.compare(html1, html2))
+        self.assertEqual("html > body > h1\n+ Hello World\n- Hello Hello\n", dom_diff.compare(html1, html2))
