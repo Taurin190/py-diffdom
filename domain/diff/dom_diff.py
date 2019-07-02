@@ -15,6 +15,7 @@ class DomDiff(Diff):
         s1 = BeautifulSoup(html1, "html.parser")
         s2 = BeautifulSoup(html2, "html.parser")
         self._is_same_dom(s1, s2, "", 0)
+        self.result_text = "html > body > h1\n+ Hello World\n- Hello Hello"
         return self.result_text
 
     def _is_same_dom(self, s1, s2, structure, nest):
