@@ -3,10 +3,10 @@ from config.config_manager import ConfigManager
 
 
 class AppConfig(object):
-    def __init__(self, type, target1, target2):
-        self.type = type
-        self.target1 = target1
-        self.target2 = target2
+    def __init__(self, config):
+        self.type = config["app"]["type"]
+        self.target1 = config["app"]["target1"]
+        self.target2 = config["app"]["target2"]
 
 
 class AppConfigManager(ConfigManager):
@@ -17,7 +17,4 @@ class AppConfigManager(ConfigManager):
         return ""
 
     def get_config_obj(self):
-        type = self.config["app"]["type"]
-        target1 = self.config["app"]["target1"]
-        target2 = self.config["app"]["target2"]
-        return AppConfig(type, target1, target2)
+        return AppConfig(self.config)

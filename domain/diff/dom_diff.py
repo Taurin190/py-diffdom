@@ -8,8 +8,8 @@ class DomDiff(Diff):
         super().__init__()
         self.result_text = ""
         self.different_dom_list = []
-        self.print_type = app_conf.print_type
-        self.TEXT_MAX = app_conf.text_max
+        self.print_type = app_conf["print_type"]
+        self.TEXT_MAX = app_conf["text_max"]
 
     def compare(self, html1, html2):
         s1 = BeautifulSoup(html1, "html.parser")

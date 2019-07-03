@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 import os
 import time
+import configparser
 
 from api.requests_api import RequestsAPI
 from api.selenium_api import SeleniumAPI
 from config.url_list_reader import URLListReader
-from config.db_config_manager import DBConfigManager
 from config.api_config_manager import APIConfigManager
 from repository.mongo_database import MongoDatabase
 from repository.file_database import FileDatabase
@@ -19,13 +19,16 @@ class DiffChecker:
     def __init__(self):
         self.start_time = time.time()
         print("start diff check tool")
-        db_config = DBConfigManager("/config/database.conf").get_config_obj()
+        current_path = os.getcwd()
+        self.config = configparser.ConfigParser()
+        self.config.read(current_path + "/config/app.conf")
         print("create repository")
-        self.repository = DiffChecker.get_repository(db_config)
+        self.repository = DiffChecker.get_repository(self.config["database"])
+
 
     @staticmethod
     def get_repository(config):
-        if config.type == "mongo":
+        if config["type"] == "mongo":
             repository = MongoDatabase(config)
         else:
             repository = FileDatabase(config)
@@ -49,7 +52,7 @@ class DiffChecker:
     @staticmethod
     def get_diff_tool(config):
         if config.type == "dom":
-            diff_tool = DomDiff()
+            diff_tool = DomDiff(config["diff"])
         elif config.type == "line":
             diff_tool = LineDiff()
         elif config.type == "json":
@@ -68,7 +71,7 @@ class DiffChecker:
         api = DiffChecker.get_api_connector(config)
         url_lists_acquire = URLListAcquisition(api)
         html_lists = url_lists_acquire.get_comparable_htmls(url_list1=config.url_list1, url_list2=config.url_list2)
-        dom_diff = DomDiff(config)
+        dom_diff = DomDiff(self.config)
         for htmls in html_lists:
             dom_diff.compare(htmls[0], htmls[1])
 
