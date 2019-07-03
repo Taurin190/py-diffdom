@@ -68,7 +68,7 @@ class DiffChecker:
         api = DiffChecker.get_api_connector(config)
         url_lists_acquire = URLListAcquisition(api)
         html_lists = url_lists_acquire.get_comparable_htmls(url_list1=config.url_list1, url_list2=config.url_list2)
-        dom_diff = DomDiff()
+        dom_diff = DomDiff(config)
         for htmls in html_lists:
             dom_diff.compare(htmls[0], htmls[1])
 
