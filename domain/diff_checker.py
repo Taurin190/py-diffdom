@@ -24,7 +24,6 @@ class DiffChecker:
         print("create repository")
         self.repository = DiffChecker.get_repository(self.config["database"])
 
-
     @staticmethod
     def get_repository(config):
         if config["type"] == "mongo":
@@ -42,23 +41,28 @@ class DiffChecker:
         return api
 
     @staticmethod
+    def get_diff_tool(config):
+        if config["app"]["diff_type"] == "dom":
+            diff_tool = DomDiff(config["diff"])
+        elif config["app"]["diff_type"] == "line":
+            diff_tool = LineDiff()
+        elif config["app"]["diff_type"] == "json":
+            diff_tool = JsonDiff()
+        else:
+            diff_tool = DomDiff(config["diff"])
+        return diff_tool
+
+    @staticmethod
+    def get_html_files(config, api):
+        url_lists_acquire = URLListAcquisition(api)
+        return url_lists_acquire.get_comparable_htmls(url_list1=config["url_list1"], url_list2=config["url_list2"])
+
+    @staticmethod
     def get_url_lists(file_path1, file_path2):
         current_path = os.getcwd()
         list1 = URLListReader.get_url_list(current_path + file_path1)
         list2 = URLListReader.get_url_list(current_path + file_path2)
         return [list1, list2]
-
-    @staticmethod
-    def get_diff_tool(config):
-        if config.type == "dom":
-            diff_tool = DomDiff(config["diff"])
-        elif config.type == "line":
-            diff_tool = LineDiff()
-        elif config.type == "json":
-            diff_tool = JsonDiff()
-        else:
-            diff_tool = DomDiff(config["diff"])
-        return diff_tool
 
     def __del__(self):
         end_time = time.time()
@@ -66,9 +70,8 @@ class DiffChecker:
 
     def exec(self):
         api = DiffChecker.get_api_connector(self.config["api"])
-        url_lists_acquire = URLListAcquisition(api)
-        html_lists = url_lists_acquire.get_comparable_htmls(url_list1=self.config["api"]["url_list1"], url_list2=self.config["api"]["url_list2"])
-        dom_diff = DomDiff(self.config["diff"])
+        html_lists = DiffChecker.get_html_files(self.config["api"], api)
+        diff_tool = DiffChecker.get_diff_tool(self.config)
         for htmls in html_lists:
-            dom_diff.compare(htmls[0], htmls[1])
+            diff_tool.compare(htmls[0], htmls[1])
 
