@@ -6,8 +6,8 @@ from pymongo import MongoClient
 class MongoDatabase(db.Database):
     def __init__(self, config):
         super().__init__(config)
-        self.client = MongoClient(config.hostname, config.port)
-        self.collection = self.client[config.database][config.collection]
+        self.client = MongoClient(config["hostname"], int(config["port"]))
+        self.collection = self.client[config["database"]][config["collection"]]
 
     def insert(self, document):
         self.collection.insert(document)
