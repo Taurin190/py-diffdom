@@ -4,7 +4,10 @@ from domain.diff.dom_diff import DomDiff
 
 class DomDiffTest(TestCase):
     def setUp(self):
-        app_config_dummy = AppConfigDummy("line", 200)
+        app_config_dummy = {
+            "print_type": "line",
+            "text_max": 200
+        }
         self.dom_diff = DomDiff(app_config_dummy)
 
     def test_compare_no_diff(self):
@@ -22,9 +25,4 @@ class DomDiffTest(TestCase):
         html2 = "<html><body><h1>Hello World</h1><div><h2>Fuga Fuga</h2></div></body></html>"
         self.assertEqual("html > body > div > h2\n+ Hoge Hoge\n- Fuga Fuga\n", self.dom_diff.compare(html1, html2))
 
-
-class AppConfigDummy:
-    def __init__(self, print_type, text_max):
-        self.print_type = print_type
-        self.text_max = text_max
 
