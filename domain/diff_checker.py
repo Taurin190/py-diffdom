@@ -11,7 +11,7 @@ from repository.file_database import FileDatabase
 from domain.diff.dom_diff import DomDiff
 from domain.diff.line_diff import LineDiff
 from domain.diff.json_diff import JsonDiff
-from domain.acquisition.url_list_acquisition import URLListAcquisition
+from domain.comparision.url_list_comparision import URLListComparision
 
 
 class DiffChecker:
@@ -54,8 +54,15 @@ class DiffChecker:
 
     @staticmethod
     def get_html_files(config, api):
-        url_lists_acquire = URLListAcquisition(api)
+        url_lists_acquire = URLListComparision(api)
         return url_lists_acquire.get_comparable_htmls(url_list1=config["url_list1"], url_list2=config["url_list2"])
+
+    @staticmethod
+    def get_comparision_tool(config, api, diff_tool):
+        comparision = URLListComparision(config, api, diff_tool)
+        return comparision
+
+
 
     @staticmethod
     def get_url_lists(file_path1, file_path2):
@@ -70,8 +77,8 @@ class DiffChecker:
 
     def exec(self):
         api = DiffChecker.get_api_connector(self.config["api"])
-        html_lists = DiffChecker.get_html_files(self.config["api"], api)
         diff_tool = DiffChecker.get_diff_tool(self.config)
+        html_lists = DiffChecker.get_html_files(self.config["api"], api)
         for htmls in html_lists:
             diff_tool.compare(htmls[0], htmls[1])
 

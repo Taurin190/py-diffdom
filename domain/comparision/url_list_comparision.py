@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 import os
-from domain.acquisition.acquisition import Acquisition
+from domain.comparision.comparision import Comparision
 from config.url_list_reader import URLListReader
 
-class URLListAcquisition(Acquisition):
-    def __init__(self, api):
-        super().__init__(api)
+class URLListComparision(Comparision):
+    def __init__(self, config, api, diff_tool):
+        super().__init__(config, api, diff_tool)
 
     def get_comparable_htmls(self, **args):
         if not "url_list1" in args.keys() or not "url_list2" in args.keys():

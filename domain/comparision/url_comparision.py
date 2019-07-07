@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
-from domain.acquisition.acquisition import Acquisition
+from domain.comparision.comparision import Comparision
 
 
-class URLAcquisition(Acquisition):
-    def __init__(self, api):
-        super().__init__(api)
+class URLComparision(Comparision):
+    def __init__(self, config, api, diff_tool):
+        super().__init__(config, api, diff_tool)
 
     def get_comparable_htmls(self, **args):
         if not ["url1", "url2"] in args.keys():

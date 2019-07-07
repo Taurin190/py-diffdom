@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
-from domain.acquisition.acquisition import Acquisition
+from domain.comparision.comparision import Comparision
 
 
-class ProxyAcquisition(Acquisition):
-    def __init__(self, api):
-        super().__init__(api)
+class ProxyComparision(Comparision):
+    def __init__(self, config, api, diff_tool):
+        super().__init__(config, api, diff_tool)
 
     def get_comparable_htmls(self, **args):
         if not ["url", "proxy1", "proxy2"] in args.keys():
