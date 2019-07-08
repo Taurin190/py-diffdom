@@ -3,6 +3,7 @@ import os
 from domain.comparision.comparision import Comparision
 from config.url_list_reader import URLListReader
 
+
 class URLListComparision(Comparision):
     def __init__(self, config, api, diff_tool):
         super().__init__(config, api, diff_tool)

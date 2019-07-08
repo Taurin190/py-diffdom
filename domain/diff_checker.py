@@ -63,7 +63,6 @@ class DiffChecker:
         return comparision
 
 
-
     @staticmethod
     def get_url_lists(file_path1, file_path2):
         current_path = os.getcwd()
