@@ -14,3 +14,6 @@ class URLComparision(Comparision):
         html1 = self.api.get_html(url1)
         html2 = self.api.get_html(url2)
         return [html1, html2]
+
+    def compare_with_diff_tool(self, htmls):
+        self.diff_tool.compare(htmls[0], htmls[1])

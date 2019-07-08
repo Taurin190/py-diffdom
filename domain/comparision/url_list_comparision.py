@@ -24,3 +24,8 @@ class URLListComparision(Comparision):
         list1 = URLListReader.get_url_list(current_path + file_path1)
         list2 = URLListReader.get_url_list(current_path + file_path2)
         return [list1, list2]
+
+    def compare_with_diff_tool(self, **args):
+        html_lists = self.get_comparable_htmls(**args)
+        for htmls in html_lists:
+            self.diff_tool.compare(htmls[0], htmls[1])

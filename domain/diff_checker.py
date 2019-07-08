@@ -53,15 +53,9 @@ class DiffChecker:
         return diff_tool
 
     @staticmethod
-    def get_html_files(config, api):
-        url_lists_acquire = URLListComparision(api)
-        return url_lists_acquire.get_comparable_htmls(url_list1=config["url_list1"], url_list2=config["url_list2"])
-
-    @staticmethod
     def get_comparision_tool(config, api, diff_tool):
         comparision = URLListComparision(config, api, diff_tool)
         return comparision
-
 
     @staticmethod
     def get_url_lists(file_path1, file_path2):
@@ -77,7 +71,7 @@ class DiffChecker:
     def exec(self):
         api = DiffChecker.get_api_connector(self.config["api"])
         diff_tool = DiffChecker.get_diff_tool(self.config)
-        html_lists = DiffChecker.get_html_files(self.config["api"], api)
-        for htmls in html_lists:
-            diff_tool.compare(htmls[0], htmls[1])
+        comparision_tool = DiffChecker.get_comparision_tool(self.config["app"], api, diff_tool)
+        comparision_tool.compare_with_diff_tool(url_list1=self.config["api"]["url_list1"], url_list2=self.config["api"]["url_list2"])
+
 
