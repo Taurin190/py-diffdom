@@ -6,8 +6,6 @@ import configparser
 from api.requests_api import RequestsAPI
 from api.selenium_api import SeleniumAPI
 from config.url_list_reader import URLListReader
-from repository.mongo_database import MongoDatabase
-from repository.file_database import FileDatabase
 from domain.diff.dom_diff import DomDiff
 from domain.diff.line_diff import LineDiff
 from domain.diff.json_diff import JsonDiff
@@ -22,15 +20,6 @@ class DiffChecker:
         self.config = configparser.ConfigParser()
         self.config.read(current_path + "/config/app.conf")
         print("create repository")
-        self.repository = DiffChecker.get_repository(self.config["database"])
-
-    @staticmethod
-    def get_repository(config):
-        if config["type"] == "mongo":
-            repository = MongoDatabase(config)
-        else:
-            repository = FileDatabase(config)
-        return repository
 
     @staticmethod
     def get_api_connector(config):
