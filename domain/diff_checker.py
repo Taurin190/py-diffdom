@@ -15,9 +15,7 @@ from domain.comparision.url_list_comparision import URLListComparision
 class DiffChecker:
     def __init__(self):
         self.start_time = time.time()
-        current_path = os.getcwd()
         self.config = configparser.ConfigParser()
-        self.config.read(current_path + "/config/app.conf")
 
     @staticmethod
     def show_usage():
@@ -65,6 +63,9 @@ class DiffChecker:
         if len(args) < 2:
             DiffChecker.show_usage()
             exit(1)
+        arg_config = args[1]
+        current_path = os.getcwd()
+        self.config.read(current_path + "/" + arg_config)
         api = DiffChecker.get_api_connector(self.config["api"])
         diff_tool = DiffChecker.get_diff_tool(self.config)
         comparision_tool = DiffChecker.get_comparision_tool(self.config["app"], api, diff_tool)
