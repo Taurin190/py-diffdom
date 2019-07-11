@@ -15,11 +15,15 @@ from domain.comparision.url_list_comparision import URLListComparision
 class DiffChecker:
     def __init__(self):
         self.start_time = time.time()
-        print("start diff check tool")
         current_path = os.getcwd()
         self.config = configparser.ConfigParser()
         self.config.read(current_path + "/config/app.conf")
-        print("create repository")
+
+    @staticmethod
+    def show_usage():
+        print("diffdom is a tool for compare html comparing dom structure\n\n"
+              "Usage:\n"
+              "  diffdom [config file]")
 
     @staticmethod
     def get_api_connector(config):
@@ -57,7 +61,10 @@ class DiffChecker:
         end_time = time.time()
         print("diff check end: execution time[{:.5g} sec]".format(end_time - self.start_time))
 
-    def exec(self):
+    def exec(self, *args):
+        if len(args) < 2:
+            DiffChecker.show_usage()
+            exit(1)
         api = DiffChecker.get_api_connector(self.config["api"])
         diff_tool = DiffChecker.get_diff_tool(self.config)
         comparision_tool = DiffChecker.get_comparision_tool(self.config["app"], api, diff_tool)
