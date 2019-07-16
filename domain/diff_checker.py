@@ -24,6 +24,15 @@ class DiffChecker:
               "  diffdom [config file]")
 
     @staticmethod
+    def show_config_requirement():
+        print("Please take a look available parameters for the config file\n\n"
+              "Params:\n"
+              "[app](arbitrary)\n"
+              "diff_type : \n"
+              "  It is how to get diff. you can choose from \'dom\', \'line\', \'json\'\n"
+              "  default is \'dom\'")
+
+    @staticmethod
     def get_api_connector(config):
         if config["type"] == "selenium":
             api = SeleniumAPI()
