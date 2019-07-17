@@ -15,7 +15,7 @@ from domain.comparision.url_list_comparision import URLListComparision
 class DiffChecker:
     def __init__(self):
         self.start_time = time.time()
-        self.config = configparser.ConfigParser()
+        self.is_normal_end = True
 
     @staticmethod
     def show_usage():
@@ -24,7 +24,7 @@ class DiffChecker:
               "  diffdom [config file]")
 
     @staticmethod
-    def show_config_requirement():
+    def show_config_usage():
         print("Please take a look available parameters for the config file\n\n"
               "Params:\n"
               "[app](arbitrary)\n"
@@ -34,11 +34,11 @@ class DiffChecker:
 
     @staticmethod
     def get_api_connector(config):
-        if config["type"] == "selenium":
-            api = SeleniumAPI()
-        else:
-            api = RequestsAPI()
-        return api
+        if not "api" in config.keys():
+            return RequestsAPI()
+        if config["api"]["type"] == "selenium":
+            return SeleniumAPI()
+        return RequestsAPI()
 
     @staticmethod
     def get_diff_tool(config):
@@ -65,19 +65,27 @@ class DiffChecker:
         return [list1, list2]
 
     def __del__(self):
-        end_time = time.time()
-        print("diff check end: execution time[{:.5g} sec]".format(end_time - self.start_time))
+        if self.is_normal_end:
+            end_time = time.time()
+            print("diff check end: execution time[{:.5g} sec]".format(end_time - self.start_time))
 
     def exec(self, *args):
         if len(args) < 2:
             DiffChecker.show_usage()
+            self.is_normal_end = False
+            exit(1)
+        if args[1] == "help":
+            DiffChecker.show_usage()
+            DiffChecker.show_config_usage()
+            self.is_normal_end = False
             exit(1)
         arg_config = args[1]
         current_path = os.getcwd()
-        self.config.read(current_path + "/" + arg_config)
-        api = DiffChecker.get_api_connector(self.config["api"])
-        diff_tool = DiffChecker.get_diff_tool(self.config)
-        comparision_tool = DiffChecker.get_comparision_tool(self.config["app"], api, diff_tool)
-        comparision_tool.compare_with_diff_tool(url_list1=self.config["api"]["url_list1"], url_list2=self.config["api"]["url_list2"])
+        config = configparser.ConfigParser()
+        config.read(current_path + "/" + arg_config)
+        api = DiffChecker.get_api_connector(config)
+        diff_tool = DiffChecker.get_diff_tool(config)
+        comparision_tool = DiffChecker.get_comparision_tool(config["app"], api, diff_tool)
+        comparision_tool.compare_with_diff_tool(url_list1=config["api"]["url_list1"], url_list2=config["api"]["url_list2"])
 
 
