@@ -21,8 +21,8 @@ class URLListComparision(Comparision):
 
     def get_url_lists(self, file_path1, file_path2):
         current_path = os.getcwd()
-        list1 = URLListReader.get_url_list(current_path + file_path1)
-        list2 = URLListReader.get_url_list(current_path + file_path2)
+        list1 = URLListReader.get_url_list(current_path + "/" + file_path1)
+        list2 = URLListReader.get_url_list(current_path + "/" + file_path2)
         return [list1, list2]
 
     def compare_with_diff_tool(self, **args):
