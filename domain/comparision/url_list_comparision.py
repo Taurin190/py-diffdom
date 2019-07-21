@@ -2,6 +2,7 @@
 import os
 from domain.comparision.comparision import Comparision
 from config.url_list_reader import URLListReader
+from exception.invalid_argument_error import InvalidArgumentError
 
 
 class URLListComparision(Comparision):
@@ -10,7 +11,7 @@ class URLListComparision(Comparision):
 
     def get_comparable_htmls(self, **args):
         if not "url_list1" in args.keys() or not "url_list2" in args.keys():
-            return
+            raise InvalidArgumentError("Argument is not valid")
         comparable_html_list = []
         url_lists = self.get_url_lists(args.get("url_list1"), args.get("url_list2"))
         for i in range(len(url_lists[0])):
