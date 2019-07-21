@@ -1,7 +1,6 @@
 import sys
 from io import StringIO
 from unittest import TestCase
-# from test.support import captured_stdout
 from domain.comparision.url_list_comparision import URLListComparision
 
 from test.mock_diff_tool import MockDiff
